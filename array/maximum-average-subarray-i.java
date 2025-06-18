@@ -6,14 +6,14 @@ class Solution {
             avg=avg+arr[r];
             r++;
         }
-        double maxavg=avg / k;
+        double maxavg=avg;
         while(r<arr.length) {
             avg=avg+arr[r];
             avg=avg-arr[l];
-            maxavg=Math.max(avg/k,maxavg);
+            maxavg=Math.max(avg,maxavg);
             l++;
             r++;
         }
-        return maxavg;
+        return maxavg/k;
     }
 }
