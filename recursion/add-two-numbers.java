@@ -9,25 +9,42 @@
  * }
  */
 class Solution {
-  public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-    ListNode dummy = new ListNode(0);
-    ListNode curr = dummy;
-    int carry = 0;
-
-    while (l1 != null || l2 != null || carry > 0) {
-      if (l1 != null) {
-        carry += l1.val;
-        l1 = l1.next;
-      }
-      if (l2 != null) {
-        carry += l2.val;
-        l2 = l2.next;
-      }
-      curr.next = new ListNode(carry % 10);
-      carry /= 10;
-      curr = curr.next;
+    static ListNode reverseLL(ListNode head1) {
+        ListNode curr=head1,prev=null,next;
+        while(curr!=null) {
+            next=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=next;
+        }
+        return prev;
     }
-
-    return dummy.next;
-  }
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        int c=0,sum=0;
+        ListNode res=new ListNode();
+        ListNode h1=l1,h2=l2;
+        ListNode temp=res;
+        while(h1!=null || h2!=null) {
+            sum=c;
+            if(h1!=null) {
+                sum=sum+h1.val;
+                h1=h1.next;
+            }
+            if(h2!=null) {
+                sum=sum+h2.val;
+                h2=h2.next;
+            }
+            c=sum/10;
+            if(res==null) 
+                temp=new ListNode(sum%10,null);
+            else {
+            temp.next=new ListNode(sum%10,null);
+            temp=temp.next;
+            }
+        }
+        if(c>0) {
+            temp.next=new ListNode(c,null);
+        }
+        return res.next;
+    }
 }
