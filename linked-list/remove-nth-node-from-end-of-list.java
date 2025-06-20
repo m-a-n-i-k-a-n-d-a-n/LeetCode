@@ -38,8 +38,7 @@ class Solution {
         ListNode slow,fast=head;
         if(head.next==null && n==1)
             return null;
-        if(head.next.next==null && n==2)
-            return head.next;
+        
         while(n>0) {
             fast=fast.next;
             n--;
