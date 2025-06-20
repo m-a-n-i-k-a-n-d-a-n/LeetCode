@@ -17,14 +17,17 @@ class Solution {
             temp=temp.next;
         }
         int move=c-n;
+        if(move==0) 
+            return head.next;
         ListNode prev=null,curr=head;
-        while(move!=0) {
+        while(move>0) {
             prev=curr;
             curr=curr.next;
             move--;
         }
         prev.next=curr.next;
         curr.next=null;
+        return head;
     }
-    return head;
+    
 }
