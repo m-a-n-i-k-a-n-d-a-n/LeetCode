@@ -6,8 +6,10 @@ class Solution {
             int lsum=0,rsum=0;
             for(int i=0;i<mid;i++)
                 lsum=lsum+nums[i];
+            lsum=Math.abs(lsum);
             for(int i=mid+1;i<nums.length;i++)
                 rsum=rsum+nums[i];
+            rsum=Math.abs(rsum);
             if(lsum==rsum)
                 return mid;
             else if(lsum>rsum)
