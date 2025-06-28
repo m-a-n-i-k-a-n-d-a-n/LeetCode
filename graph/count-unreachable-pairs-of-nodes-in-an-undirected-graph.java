@@ -1,42 +1,37 @@
 class Solution {
-    private List<Integer>[] graph;
+    static long count;
 
     public long countPairs(int n, int[][] edges) {
-        createGraph(n, edges);
-        boolean[] visited = new boolean[n];
-        int numVisitedNodes = 0;
-        long numUnreachablePairsOfNodes = 0;
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+        for (int[] edge : edges) {
+            adj.get(edge[0]).add(edge[1]);
+            adj.get(edge[1]).add(edge[0]);
+        }
 
-        for (int node = 0; node < n; ++node) {
-            if (!visited[node]) {
-                int numNodesInCurrentGroup = depthFirstSearch_countConnectedNodesInCurrentGroup(node, visited);
-                numUnreachablePairsOfNodes += (long) numNodesInCurrentGroup * numVisitedNodes;
-                numVisitedNodes += numNodesInCurrentGroup;
+        boolean[] vis = new boolean[n];
+        long answer = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (!vis[i]) {
+                count = 0;  
+                dfs(i, adj, vis);
+                answer += count * (n - count); 
             }
         }
-        return numUnreachablePairsOfNodes;
+
+        // Step 4: Each pair counted twice, divide by 2
+        return answer / 2L;
     }
 
-    private int depthFirstSearch_countConnectedNodesInCurrentGroup(int node, boolean[] visited) {
-        visited[node] = true;
-        int numConnectedNodes = 1;
-
-        for (int neighbor : graph[node]) {
-            if (!visited[neighbor]) {
-                numConnectedNodes += depthFirstSearch_countConnectedNodesInCurrentGroup(neighbor, visited);
+    // DFS using static counter
+    private void dfs(int node, List<List<Integer>> adj, boolean[] vis) {
+        vis[node] = true;
+        count++;
+        for (int neighbor : adj.get(node)) {
+            if (!vis[neighbor]) {
+                dfs(neighbor, adj, vis);
             }
-        }
-        return numConnectedNodes;
-    }
-
-    private void createGraph(int n, int[][] edges) {
-        graph = new List[n];
-        for (int node = 0; node < n; ++node) {
-            graph[node] = new ArrayList<>();
-        }
-        for (int i = 0; i < edges.length; ++i) {
-            graph[edges[i][0]].add(edges[i][1]);
-            graph[edges[i][1]].add(edges[i][0]);
         }
     }
 }
